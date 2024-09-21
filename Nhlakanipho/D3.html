@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ear Training</title>
+  
+  <style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        flex-direction: column;
+        background-color: #f0f0f0; /* Optional: Set a background color */
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 2em;
+        color: #333;
+    }
+
+    p {
+        margin: 20px 0 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .audio-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        max-width: 600px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    audio {
+        width: 100%;
+        max-width: 100%;
+        margin: 20px 0;
+    }
+
+    .input-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    input[type="text"] {
+        padding: 10px;
+        flex-grow: 1;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+        box-sizing: border-box;
+        min-width: 0; /* Prevent input from shrinking too much */
+        transition: border-color 0.3s; /* Smooth transition for border color */
+    }
+
+    button {
+        padding: 10px 20px;
+        margin-left: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007BFF;
+        color: white;
+        font-size: 1em;
+        cursor: pointer;
+        box-sizing: border-box;
+        flex-shrink: 0; /* Prevent button from shrinking */
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .try-again-button, .next-button {
+        display: none;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #dc3545; /* Red color */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .next-button {
+        background-color: #28a745; /* Green color */
+    }
+
+    .input-container input[type="text"].valid {
+        border-color: #28a745; /* Green border for valid input */
+    }
+
+    .input-container input[type="text"].invalid {
+        border-color: #dc3545; /* Red border for invalid input */
+    }
+
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 1.5em;
+        }
+
+        p {
+            font-size: 1em;
+        }
+
+        .audio-container {
+            padding: 10px;
+        }
+
+        .input-container {
+            flex-direction: column;
+        }
+
+        input[type="text"] {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        button {
+            margin-left: 0;
+            width: 100%;
+        }
+    }
+  </style>
+</head>
+<body>
+  <h1>Sphelele Productions</h1>
+  <p>Listen to the audio and write the note below</p>
+  <div class="audio-container">
+    <audio controls>
+        <source src="Data\Piano\3/D3.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <div class="input-container">
+        <input type="text" id="noteInput" placeholder="write note here">
+        <button type="button" onclick="validateInput()">Enter</button>
+    </div>
+    <button id="tryAgainButton" class="try-again-button" onclick="resetInput()">Try Again</button>
+    <button id="nextButton" class="next-button" onclick="goToNext()">Next</button>
+  </div>
+  
+  <script>
+    function validateInput() {
+        var inputField = document.getElementById('noteInput');
+        var tryAgainButton = document.getElementById('tryAgainButton');
+        var nextButton = document.getElementById('nextButton');
+        var value = inputField.value.trim().toUpperCase(); // Trim and normalize case
+
+        // Accept multiple valid variations of "C#"
+        if (value === 'C#' || value === 'C3#' || value === 'C SHARP' || value === 'C#3') {
+            inputField.classList.remove('invalid');
+            inputField.classList.add('valid');
+            tryAgainButton.style.display = 'none'; // Hide "Try Again" button if correct
+            nextButton.style.display = 'block'; // Show "Next" button if correct
+        } else {
+            inputField.classList.remove('valid');
+            inputField.classList.add('invalid');
+            tryAgainButton.style.display = 'block'; // Show "Try Again" button if incorrect
+            nextButton.style.display = 'none'; // Hide "Next" button if incorrect
+        }
+    }
+
+    function resetInput() {
+        var inputField = document.getElementById('noteInput');
+        var tryAgainButton = document.getElementById('tryAgainButton');
+        
+        inputField.value = ''; // Clear the input field
+        inputField.classList.remove('valid', 'invalid'); // Remove any classes
+        tryAgainButton.style.display = 'none'; // Hide the "Try Again" button
+    }
+
+    function goToNext() {
+        // Array of HTML files you want to randomly navigate to
+        var htmlFiles = ['A#.html', 'B.html', 'C.html', 'E.html'];
+
+        // Randomly pick one of the HTML files
+        var randomFile = htmlFiles[Math.floor(Math.random() * htmlFiles.length)];
+
+        // Redirect to the chosen random file
+        window.location.href = randomFile;
+    }
+  </script>
+</body>
+</html>
